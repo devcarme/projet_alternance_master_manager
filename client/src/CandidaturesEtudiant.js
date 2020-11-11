@@ -1,55 +1,33 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import "./css/App.css";
 import NavigatorEtudiant from "./NavigatorEtudiant";
 import CandidatureDetails from "./CandidatureDetails";
+import ModalCreationCandidature from "./ModalCreationCandidature";
 import "./css/index.css";
-import { Table } from 'react-bootstrap';
+import { Table, Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-class CandidaturesEtudiant extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { 
-                       etudiants: [],
-                       enseignants:[],
-                       candidatures:[]
-        };
-    }
+function CandidaturesEtudiant (props) {
+    const [candidatures, setCandidatures] = useState([]);
+    const [modalShow, setModalShow] = useState(false);
 
-    
-    getEtudiants(){
-       fetch("http://localhost:9000/users/getEtudiants")
-            .then((res) => res.json())
-            .then(res => this.setState({ etudiants: res} ))
-            .catch(err => err); 
-    }
-
-    getEnseignants(){
-        fetch("http://localhost:9000/users/getEnseignants")
-            .then((res) => res.json())
-            .then(res => this.setState({ enseignants: res} ))
-            .catch(err => err);
-    }
-
-    getCandidatures(){
+    const getCandidatures = () => {
         fetch("http://localhost:9000/users/getCandidatures")
             .then((res) => res.json())
-            .then(res => this.setState({ candidatures: res} ))
+            .then(res => setCandidatures(res))
             .catch(err => err);
     }
 
-    componentDidMount() {
-        this.getEtudiants();
-        this.getEnseignants();
-        this.getCandidatures();
-    }
+    useEffect(()=>{
+        getCandidatures()
+      },[])
 
-    render() {
         return (
             
             <div>
                 <NavigatorEtudiant/>
                 <br/>
+                <Button variant="primary" className="mb-3" onClick={() => setModalShow(true)}>Créer une candidature</Button>
                 <Table striped bordered hover variant="dark">
                         <thead><th><h3>Candidatures</h3></th></thead>
                         <thead>
@@ -61,7 +39,7 @@ class CandidaturesEtudiant extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.candidatures.map(candidature => (
+                            {candidatures.map(candidature => (
                                 <CandidatureDetails
                                 key={candidature.idCandidature}
                                 details={candidature}
@@ -69,11 +47,13 @@ class CandidaturesEtudiant extends Component {
                             ))}
                         </tbody>
                     </Table>
-                        
+                    <ModalCreationCandidature
+                        show={modalShow}
+                        onHide={() => setModalShow(false)}
+                    />   
             </div>
             
         );
-    }
 }
 
 export default CandidaturesEtudiant;
