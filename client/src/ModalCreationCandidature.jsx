@@ -1,9 +1,36 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap"
+import AjoutCandidatureForm from "./AjoutCandidatureForm";
+
 
  
- 
 function ModalCreationCandidature(props) {
+  
+  const createCandidature = () => {
+    fetch("http://localhost:9000/users/insertCandidature")
+        .then((res) => res.json())
+        .then(res => setCandidatures(res))
+        .catch(err => err);
+  }
+
+  verifyPassword = arrayCandidature =>{
+    var entreprise = arrayCandidature.idEntreprise;
+    var origineOffreValue = arrayCandidature.origineOffre;
+    var cv = arrayCandidature.idCV;
+    var entretien = arrayCandidature.idEntretien;
+    var lettreMotivation = arrayCandidature.idLettreMotivation;  
+    var candidature = {idEntreprise: entreprise, origineOffre: origineOffreValue, idCV: cv, idEntretien: entretien, idLettreMotivation: lettreMotivation};
+    const requestOptions = {
+        method: 'POST',
+        headers: {"Content-type": "application/json; charset=UTF-8"},
+        body: JSON.stringify(candidature)
+    };
+    
+    fetch('http://localhost:9000/users/insertCandidature', requestOptions)
+        .then(res => res.text())
+        .then(res => console.log(res))
+    };
+
     return (
       <Modal
         {...props}
@@ -17,11 +44,10 @@ function ModalCreationCandidature(props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Formulaire d'ajout
+        <AjoutCandidatureForm onCreate={createCandidature} />
         </Modal.Body>
         <Modal.Footer>
-            <Button onClick={props.onHide}>Créer</Button>
-          <Button onClick={props.onHide}>Close</Button>
+          <Button onClick={props.onHide}>Annuler</Button>
         </Modal.Footer>
       </Modal>
     );

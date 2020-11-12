@@ -137,4 +137,36 @@ router.get('/getCandidatures', (req,res, next) => {
     })
 });
 
+router.get('/getEntreprises', (req,res, next) => {
+    var query = "SELECT * FROM entreprise";
+    connection.query(query, function (error, results, fields) {
+        if (error) throw error;
+        res.send(results);
+    })
+});
+
+router.get('/getCVS', (req,res, next) => {
+    var query = "SELECT * FROM cv WHERE idEtudiant = '" + userSession + "'";
+    connection.query(query, function (error, results, fields) {
+        if (error) throw error;
+        res.send(results);
+    })
+});
+
+router.get('/getLMS', (req,res, next) => {
+    var query = "SELECT * FROM lettremotivation WHERE idEtudiant = '" + userSession + "'";
+    connection.query(query, function (error, results, fields) {
+        if (error) throw error;
+        res.send(results);
+    })
+});
+
+router.post('/insertCandidature', (req,res, next) => {
+    var query = "SELECT * FROM lettremotivation WHERE idEtudiant = '" + userSession + "'";
+    connection.query(query, function (error, results, fields) {
+        if (error) throw error;
+        res.send(results);
+    })
+});
+
 module.exports = router;
