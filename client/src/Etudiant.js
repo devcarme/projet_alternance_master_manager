@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./css/App.css";
-import NavigatorEtudiant from './NavigatorEtudiant';
+import NavigatorEtudiant from './nav/NavigatorEtudiant';
 import "./css/index.css";
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import CandidaturesEtudiant from './CandidaturesEtudiant';

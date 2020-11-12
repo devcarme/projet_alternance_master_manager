@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./css/App.css";
 import "./css/index.css";
-import NavigatorEnseignant from "./NavigatorEnseignant";
+import NavigatorEnseignant from "./nav/NavigatorEnseignant";
 
 class App extends Component {
     constructor(props) {

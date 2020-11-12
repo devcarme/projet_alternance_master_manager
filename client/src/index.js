@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import logo from "./logo.svg";
 import "./css/App.css";
 import "./css/index.css";
-import LoginForm from "./LoginForm";
+import LoginForm from "./form/LoginForm";
 import Etudiant from './Etudiant';
 import Enseignant from './Enseignant';
 import Admin from './Admin';

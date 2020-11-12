@@ -130,7 +130,7 @@ router.get('/getEtudiants', (req,res, next) => {
 });
 
 router.get('/getCandidatures', (req,res, next) => {
-    var query = "SELECT * FROM candidature INNER JOIN etudiant ON candidature.idEtudiant = etudiant.idEtudiant INNER JOIN entreprise ON candidature.idEntreprise = entreprise.idEntreprise WHERE candidature.idEtudiant = '" + userSession + "'";
+    var query = "SELECT * FROM candidature INNER JOIN etudiant ON candidature.idEtudiant = etudiant.idEtudiant INNER JOIN entreprise ON candidature.idEntreprise = entreprise.idEntreprise WHERE candidature.idEtudiant = '" + userSession + "' ORDER BY idCandidature ASC";
     connection.query(query, function (error, results, fields) {
         if (error) throw error;
         res.send(results);
@@ -162,11 +162,32 @@ router.get('/getLMS', (req,res, next) => {
 });
 
 router.post('/insertCandidature', (req,res, next) => {
-    var query = "SELECT * FROM lettremotivation WHERE idEtudiant = '" + userSession + "'";
+     
+    var query = "INSERT INTO candidature (origineOffre, idEntreprise, idEtudiant";
+    if(req.body.idLettreMotivation != null){ query+=",idLettreMotivation";}
+    if(req.body.idEntretien != null){ query+=",idEntretien";}
+    query+=",idCV)";   
+    query+= "VALUES('" + req.body.origineOffre + "','" + req.body.idEntreprise + "','"  + userSession;
+    if(req.body.idLettreMotivation != null){ query+="','"  + req.body.idLettreMotivation;}
+    if(req.body.idEntretien != null){ query+="','"  + req.body.idEntretien;} 
+    query += "','" + req.body.idCV + "')";
     connection.query(query, function (error, results, fields) {
         if (error) throw error;
-        res.send(results);
+        res.send("INSERT OK");
     })
+});
+
+router.post('/insertEntreprise', (req,res, next) => {
+    var query = "INSERT INTO entreprise (nomEntreprise, adresseEntreprise) VALUES('" + req.body.nomEntreprise + "','" + req.body.adresseEntreprise + "')";
+    connection.query(query, function (error, results, fields) {
+        if (error) throw error;
+        res.send("INSERT OK");
+    })
+});
+
+router.post('/setRedirection', (req,res, next) => {
+    redirection = req.body.lien;
+    res.send("ok");
 });
 
 module.exports = router;

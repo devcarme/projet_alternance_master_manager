@@ -1,19 +1,12 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap"
-import AjoutCandidatureForm from "./AjoutCandidatureForm";
+import AjoutCandidatureForm from "../form/AjoutCandidatureForm";
 
 
  
 function ModalCreationCandidature(props) {
   
-  const createCandidature = () => {
-    fetch("http://localhost:9000/users/insertCandidature")
-        .then((res) => res.json())
-        .then(res => setCandidatures(res))
-        .catch(err => err);
-  }
-
-  verifyPassword = arrayCandidature =>{
+  const createCandidature = (arrayCandidature)  => {
     var entreprise = arrayCandidature.idEntreprise;
     var origineOffreValue = arrayCandidature.origineOffre;
     var cv = arrayCandidature.idCV;
@@ -29,6 +22,8 @@ function ModalCreationCandidature(props) {
     fetch('http://localhost:9000/users/insertCandidature', requestOptions)
         .then(res => res.text())
         .then(res => console.log(res))
+        .then(props.onHide)
+        .then(window.location.reload())
     };
 
     return (

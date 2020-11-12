@@ -1,6 +1,6 @@
 import React, { Component, useContext } from "react";
-import "./css/App.css";
-import "./css/index.css";
+import "../css/App.css";
+import "../css/index.css";
 import 'react-pro-sidebar/dist/css/styles.css';
 import { Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';

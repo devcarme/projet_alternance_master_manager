@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "./css/App.css";
-import EnseignantDetails from "./EnseignantDetails";
-import EtudiantDetails from "./EtudiantDetails";
-import NavigatorAdmin from "./NavigatorAdmin";
+import EnseignantDetails from "./details/EnseignantDetails";
+import EtudiantDetails from "./details/EtudiantDetails";
+import NavigatorAdmin from "./nav/NavigatorAdmin";
 import "./css/index.css";
 import { Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {Button, Form} from 'react-bootstrap';
-import EntrepriseSelect from "./EntrepriseSelect";
-import CVSelect from "./CVSelect";
+import EntrepriseSelect from "../select/EntrepriseSelect";
+import CVSelect from "../select/CVSelect";
 
 class AjoutCandidatureForm extends Component {
   state = {
@@ -79,7 +79,8 @@ class AjoutCandidatureForm extends Component {
         
         <Form.Group controlId="exampleForm.ControlSelect1">
           <Form.Label>Entreprise</Form.Label>
-          <Form.Control as="select" onChange={this.handleChangeEntreprise}>
+          <Form.Control as="select" required onChange={this.handleChangeEntreprise}>
+          <option selected value="" hidden></option>
           {this.state.entreprises.map(entreprise => (
             <EntrepriseSelect
                key={entreprise.idEntreprise}
@@ -91,7 +92,8 @@ class AjoutCandidatureForm extends Component {
 
         <Form.Group controlId="exampleForm.ControlSelect1">
           <Form.Label>CV</Form.Label>
-          <Form.Control as="select" onChange={this.handleChangeCV}>
+          <Form.Control as="select" required onChange={this.handleChangeCV}>
+          <option selected value="" hidden></option>
           {this.state.cvs.map(cv => (
             <CVSelect
                key={cv.idCV}
@@ -104,6 +106,7 @@ class AjoutCandidatureForm extends Component {
         <Form.Group controlId="exampleForm.ControlSelect1">
           <Form.Label>Lettre de motivation (optionnel)</Form.Label>
           <Form.Control as="select" onChange={this.handleChangeLettreMotivation}>
+          <option selected value="" hidden></option>
           {this.state.lms.map(lm => (
             <LMSelect
                key={lm.idLettreMotivation}
@@ -115,10 +118,10 @@ class AjoutCandidatureForm extends Component {
 
         <Form.Group controlId="exampleForm.ControlInput1">
           <Form.Label>Origine de l'offre</Form.Label>
-          <Form.Control type="text" placeholder="Origine de l'offre" value={this.state.origineOffre} onChange={this.handleChangeOrigineOffre} autoComplete= "on" />
+          <Form.Control type="text" required placeholder="Origine de l'offre" value={this.state.origineOffre} onChange={this.handleChangeOrigineOffre} autoComplete= "on" />
         </Form.Group>
 
-        <Button>Créer</Button>
+        <Button type="submit">Créer</Button>
       </Form>
     );
   }

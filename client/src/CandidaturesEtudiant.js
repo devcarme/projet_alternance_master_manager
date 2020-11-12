@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "./css/App.css";
-import NavigatorEtudiant from "./NavigatorEtudiant";
-import CandidatureDetails from "./CandidatureDetails";
-import ModalCreationCandidature from "./ModalCreationCandidature";
+import NavigatorEtudiant from "./nav/NavigatorEtudiant";
+import CandidatureDetails from "./details/CandidatureDetails";
+import ModalCreationCandidature from "./modal/ModalCreationCandidature";
+import ModalCreationEntreprise from "./modal/ModalCreationEntreprise";
 import "./css/index.css";
 import { Table, Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function CandidaturesEtudiant (props) {
     const [candidatures, setCandidatures] = useState([]);
-    const [modalShow, setModalShow] = useState(false);
+    const [modalAjoutCandidature, setModalAjoutCandidature] = useState(false);
+    const [modalAjoutEntreprise, setModalAjoutEntreprise] = useState(false);
 
     const getCandidatures = () => {
         fetch("http://localhost:9000/users/getCandidatures")
@@ -27,7 +29,10 @@ function CandidaturesEtudiant (props) {
             <div>
                 <NavigatorEtudiant/>
                 <br/>
-                <Button variant="primary" className="mb-3" onClick={() => setModalShow(true)}>Créer une candidature</Button>
+                <div className="row justify-content-around">
+                    <Button variant="primary" className="mb-3" onClick={() => setModalAjoutCandidature(true)}>Créer une candidature</Button>
+                    <Button variant="primary" className="mb-3" onClick={() => setModalAjoutEntreprise(true)}>Ajouter une entreprise</Button>
+                </div>
                 <Table striped bordered hover variant="dark">
                         <thead><th><h3>Candidatures</h3></th></thead>
                         <thead>
@@ -48,9 +53,15 @@ function CandidaturesEtudiant (props) {
                         </tbody>
                     </Table>
                     <ModalCreationCandidature
-                        show={modalShow}
-                        onHide={() => setModalShow(false)}
-                    />   
+                        show={modalAjoutCandidature}
+                        onHide={() => setModalAjoutCandidature(false)}
+
+                    />
+                    <ModalCreationEntreprise
+                        show={modalAjoutEntreprise}
+                        onHide={() => setModalAjoutEntreprise(false)}
+
+                    />      
             </div>
             
         );

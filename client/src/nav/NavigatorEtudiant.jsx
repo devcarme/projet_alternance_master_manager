@@ -1,11 +1,10 @@
 import React, { Component, useContext } from "react";
-import "./css/App.css";
-import "./css/index.css";
+import "../css/App.css";
+import "../css/index.css";
 import 'react-pro-sidebar/dist/css/styles.css';
 import { Nav, Navbar, Form, FormControl, Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
-import CandidaturesEtudiant from './CandidaturesEtudiant';
 
 class NavigatorEtudiant extends Component {
     constructor(props) {
@@ -31,15 +30,26 @@ class NavigatorEtudiant extends Component {
             .then(window.location.reload())
     }
 
+    setRedirection(redirection){
+        var redirect = {lien: redirection};
+        const requestOptions = {
+            method: 'POST',
+            headers: {"Content-type": "application/json; charset=UTF-8"},
+            body: JSON.stringify(redirect)
+    };
+    
+    fetch('http://localhost:9000/users/setRedirection', requestOptions)
+        .then(res => console.log(res))
+    };
 
 
     render() {
         return (
         <Navbar bg="dark" variant="dark">
-            <Navbar.Brand><Link className="text-decoration-none text-info" to="/Etudiant">Master Manager</Link></Navbar.Brand>
+            <Navbar.Brand><Link className="text-decoration-none text-info" to="/Etudiant" onClick={this.setRedirection("/Etudiant")}>Master Manager</Link></Navbar.Brand>
             <Nav className="mr-auto">
-              <Nav.Link><Link className="text-decoration-none text-light" to="/Profil">Profil</Link></Nav.Link>
-              <Nav.Link><Link className="text-decoration-none text-light" to="/CandidaturesEtudiant">Candidatures</Link></Nav.Link>
+              <Nav.Link><Link className="text-decoration-none text-light" to="/Profil" onClick={this.setRedirection("/Profil")}>Profil</Link></Nav.Link>
+              <Nav.Link><Link className="text-decoration-none text-light" to="/CandidaturesEtudiant" onClick={this.setRedirection("/CandidaturesEtudiant")}>Candidatures</Link></Nav.Link>
               <Nav.Link>Entretien</Nav.Link>
               <Nav.Link>Documents</Nav.Link>
             </Nav>
