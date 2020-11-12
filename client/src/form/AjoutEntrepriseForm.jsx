@@ -53,7 +53,7 @@ class AjoutEntrepriseForm extends Component {
           <Form.Control type="text" required placeholder="Adresse de l'entreprise" value={this.state.adresseEntreprise} onChange={this.handleChangeAdresseEntreprise} autoComplete= "on" />
         </Form.Group>
 
-        <Button type="submit">Créer</Button>
+        <Button type="submit">Ajouter</Button>
       </Form>
     );
   }

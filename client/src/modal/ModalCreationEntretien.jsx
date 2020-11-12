@@ -1,22 +1,22 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap"
-import AjoutEntrepriseForm from "../form/AjoutEntrepriseForm";
+import AjoutEntretienForm from "../form/AjoutEntretienForm";
 
 
  
-function ModalCreationEntreprise(props) {
+function ModalCreationEntretien(props) {
   
-  const createEntreprise = (arrayEntreprise)  => {
-    var nom = arrayEntreprise.nomEntreprise;
-    var adresse = arrayEntreprise.adresseEntreprise;  
-    var entreprise = {nomEntreprise: nom, adresseEntreprise: adresse};
+  const createEntretien = (arrayEntretien)  => {
+    var date = arrayEntretien.dateEntretien;
+    var mail = arrayEntretien.intervenant;  
+    var Entretien = {dateEntretien: date, mailIntervenant: mail};
     const requestOptions = {
         method: 'POST',
         headers: {"Content-type": "application/json; charset=UTF-8"},
-        body: JSON.stringify(entreprise)
+        body: JSON.stringify(Entretien)
     };
     
-    fetch('http://localhost:9000/users/insertEntreprise', requestOptions)
+    fetch('http://localhost:9000/users/insertEntretien', requestOptions)
         .then(res => res.text())
         .then(res => console.log(res))
         .then(props.onHide)
@@ -32,11 +32,11 @@ function ModalCreationEntreprise(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Ajouter une entreprise
+            Ajouter une Entretien
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <AjoutEntrepriseForm onCreate={createEntreprise} />
+        <AjoutEntretienForm onCreate={createEntretien} />
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.onHide}>Annuler</Button>
@@ -45,4 +45,4 @@ function ModalCreationEntreprise(props) {
     );
   }
 
-export default ModalCreationEntreprise;
+export default ModalCreationEntretien;

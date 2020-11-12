@@ -41,6 +41,7 @@ function CandidaturesEtudiant (props) {
                             <th>Entreprise</th>
                             <th>Documents</th>
                             <th>Origine de l'offre</th>
+                            <th>Entretien</th>
                             </tr>
                         </thead>
                         <tbody>

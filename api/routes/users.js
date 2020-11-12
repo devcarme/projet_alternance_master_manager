@@ -161,6 +161,14 @@ router.get('/getLMS', (req,res, next) => {
     })
 });
 
+router.get('/getIntervenants', (req,res, next) => {
+    var query = "SELECT * FROM intervenant INNER JOIN entrerprise on intervenant.idEntreprise = entreprise.idEntreprise";
+    connection.query(query, function (error, results, fields) {
+        if (error) throw error;
+        res.send(results);
+    })
+});
+
 router.post('/insertCandidature', (req,res, next) => {
      
     var query = "INSERT INTO candidature (origineOffre, idEntreprise, idEtudiant";
@@ -179,6 +187,15 @@ router.post('/insertCandidature', (req,res, next) => {
 
 router.post('/insertEntreprise', (req,res, next) => {
     var query = "INSERT INTO entreprise (nomEntreprise, adresseEntreprise) VALUES('" + req.body.nomEntreprise + "','" + req.body.adresseEntreprise + "')";
+    connection.query(query, function (error, results, fields) {
+        if (error) throw error;
+        res.send("INSERT OK");
+    })
+});
+
+router.post('/insertEntretien', (req,res, next) => {
+    var query = "INSERT INTO entretien (dateEntretien, idEtudiant) VALUES('" + req.body.dateEntretien + "','" + userSession + "')";
+    
     connection.query(query, function (error, results, fields) {
         if (error) throw error;
         res.send("INSERT OK");
