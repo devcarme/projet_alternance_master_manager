@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "./css/App.css";
 import NavigatorEtudiant from "./nav/NavigatorEtudiant";
-import CandidatureDetails from "./details/CandidatureDetails";
+import EntretienDetails from "./details/EntretienDetails";
 import ModalCreationCandidature from "./modal/ModalCreationCandidature";
 import ModalCreationEntreprise from "./modal/ModalCreationEntreprise";
+import "./css/index.css";
 import { Table, Button, Modal } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import "./css/index.css";
 import ModalCreationEntretien from "./modal/ModalCreationEntretien";
 
-function CandidaturesEtudiant (props) {
+function EntretiensEtudiants (props) {
     const [candidatures, setCandidatures] = useState([]);
+    const [entretiens, setEntretiens] = useState([]);
     const [modalAjoutCandidature, setModalAjoutCandidature] = useState(false);
     const [modalAjoutEntreprise, setModalAjoutEntreprise] = useState(false);
     const [modalAjoutEntretien, setModalAjoutEntretien] = useState(false);
@@ -22,49 +23,46 @@ function CandidaturesEtudiant (props) {
             .catch(err => err);
     }
 
+    const getEntretiens = () => {
+        fetch("http://localhost:9000/users/getEntretiens")
+            .then((res) => res.json())
+            .then(res => setEntretiens(res))
+            .catch(err => err);
+    }
+
     useEffect(()=>{
-        getCandidatures()
+        getCandidatures();
+        getEntretiens();
       },[])
 
         return (
             
-            <div class="container-fluid p-0">
+            <div>
                 <NavigatorEtudiant/>
                 <br/>
-                <div className="row justify-content-around pr-0">
-                    <Button variant="primary" className="mb-3" onClick={() => setModalAjoutCandidature(true)}>Créer une candidature</Button>
-                    <Button variant="primary" className="mb-3" onClick={() => setModalAjoutEntreprise(true)}>Ajouter une entreprise</Button>
+                <div className="row justify-content-around">
                     <Button variant="primary" className="mb-3" onClick={() => setModalAjoutEntretien(true)}>Ajouter un entretien</Button>
                 </div>
                 <Table striped bordered hover variant="dark">
-                        <thead><th><h3>Candidatures</h3></th></thead>
+                        <thead><th><h3>Entretiens</h3></th></thead>
                         <thead>
                             <tr>
                             <th>N°</th>
-                            <th>Entreprise</th>
-                            <th>Documents</th>
-                            <th>Origine de l'offre</th>
-                            <th>Entretien</th>
+                            <th>Date</th>
+                            <th>Organisé par l'UBO</th>
+                            <th>Personnel</th>
+                            <th>Annulé</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {candidatures.map(candidature => (
-                                <CandidatureDetails
-                                key={candidature.idCandidature}
-                                details={candidature}
+                            {entretiens.map(entretien => (
+                                <EntretienDetails
+                                key={entretien.idEntretien}
+                                details={entretien}
                                 />
                             ))}
                         </tbody>
                     </Table>
-                    <ModalCreationCandidature
-                        show={modalAjoutCandidature}
-                        onHide={() => setModalAjoutCandidature(false)}
-
-                    />
-                    <ModalCreationEntreprise
-                        show={modalAjoutEntreprise}
-                        onHide={() => setModalAjoutEntreprise(false)}
-                    />
                     <ModalCreationEntretien
                         show={modalAjoutEntretien}
                         onHide={() => setModalAjoutEntretien(false)}
@@ -74,5 +72,5 @@ function CandidaturesEtudiant (props) {
         );
 }
 
-export default CandidaturesEtudiant;
+export default EntretiensEtudiants;
 

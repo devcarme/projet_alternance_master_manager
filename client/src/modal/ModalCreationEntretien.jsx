@@ -8,12 +8,13 @@ function ModalCreationEntretien(props) {
   
   const createEntretien = (arrayEntretien)  => {
     var date = arrayEntretien.dateEntretien;
-    var mail = arrayEntretien.intervenant;  
-    var Entretien = {dateEntretien: date, mailIntervenant: mail};
+    var mail = arrayEntretien.intervenant;
+    var candid = arrayEntretien.candidature;  
+    var entretien = {dateEntretien: date, mailIntervenant: mail, idCandidature: candid};
     const requestOptions = {
         method: 'POST',
         headers: {"Content-type": "application/json; charset=UTF-8"},
-        body: JSON.stringify(Entretien)
+        body: JSON.stringify(entretien)
     };
     
     fetch('http://localhost:9000/users/insertEntretien', requestOptions)

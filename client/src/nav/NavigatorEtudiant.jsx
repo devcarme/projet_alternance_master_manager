@@ -50,7 +50,7 @@ class NavigatorEtudiant extends Component {
             <Nav className="mr-auto">
               <Nav.Link><Link className="text-decoration-none text-light" to="/Profil" onClick={this.setRedirection("/Profil")}>Profil</Link></Nav.Link>
               <Nav.Link><Link className="text-decoration-none text-light" to="/CandidaturesEtudiant" onClick={this.setRedirection("/CandidaturesEtudiant")}>Candidatures</Link></Nav.Link>
-              <Nav.Link>Entretien</Nav.Link>
+              <Nav.Link><Link className="text-decoration-none text-light" to="/EntretiensEtudiant" onClick={this.setRedirection("/EntretiensEtudiant")}>Entretiens</Link></Nav.Link>
               <Nav.Link>Documents</Nav.Link>
             </Nav>
             <Form inline>

@@ -137,6 +137,13 @@ router.get('/getCandidatures', (req,res, next) => {
     })
 });
 
+router.get('/getEntretiens', (req,res, next) => {
+    connection.query("SELECT * FROM entretien INNER JOIN candidature ON candidature.idEntretien = entretien.idEntretien INNER JOIN entretien_intervenant ON entretien_intervenant.idEntretien = entretien.idEntretien INNER JOIN intervenant ON entretien_intervenant.idIntervenant = intervenant.idIntervenant WHERE entretien.idEtudiant = '" + userSession + "'", function (error, results, fields) {
+        if (error) throw error;
+        res.send(results);
+    })
+});
+
 router.get('/getEntreprises', (req,res, next) => {
     var query = "SELECT * FROM entreprise";
     connection.query(query, function (error, results, fields) {
@@ -162,7 +169,7 @@ router.get('/getLMS', (req,res, next) => {
 });
 
 router.get('/getIntervenants', (req,res, next) => {
-    var query = "SELECT * FROM intervenant INNER JOIN entrerprise on intervenant.idEntreprise = entreprise.idEntreprise";
+    var query = "SELECT * FROM intervenant INNER JOIN entreprise on intervenant.idEntreprise = entreprise.idEntreprise";
     connection.query(query, function (error, results, fields) {
         if (error) throw error;
         res.send(results);
@@ -195,12 +202,26 @@ router.post('/insertEntreprise', (req,res, next) => {
 
 router.post('/insertEntretien', (req,res, next) => {
     var query = "INSERT INTO entretien (dateEntretien, idEtudiant) VALUES('" + req.body.dateEntretien + "','" + userSession + "')";
+    var dernierEntretien =  "SELECT MAX(idEntretien) as dernierEntretien FROM entretien";
     
     connection.query(query, function (error, results, fields) {
         if (error) throw error;
-        res.send("INSERT OK");
+        connection.query(dernierEntretien, function (error, results, fields) {
+            if (error) throw error;
+            idEntretienDernier = results[0].dernierEntretien;
+            var insertEntretien = "INSERT INTO entretien_intervenant VALUES('" + idEntretienDernier + "','" + req.body.mailIntervenant + "')";
+            connection.query(insertEntretien, function (error, results, fields) {
+                if (error) throw error;
+                var updateCandidature = "UPDATE candidature SET idEntretien = '" + idEntretienDernier + "' WHERE idEtudiant = '" + userSession + "'";
+                connection.query(updateCandidature, function (error, results, fields) {
+                    if (error) throw error;
+                    res.send("INSERT OK");
+                })
+            })
+        })
     })
 });
+
 
 router.post('/setRedirection', (req,res, next) => {
     redirection = req.body.lien;

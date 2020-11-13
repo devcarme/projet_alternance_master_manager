@@ -7,3 +7,8 @@ body {
 .h-100{
   height: 200px
 }
+
+.container-fluid.maxx {
+  padding-left: 0px;
+  padding-right: 0px; 
+}

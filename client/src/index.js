@@ -9,7 +9,7 @@ import Enseignant from './Enseignant';
 import Admin from './Admin';
 import CandidaturesEtudiant from './CandidaturesEtudiant';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
-
+import EntretiensEtudiant from './EntretiensEtudiant';
 
 class Index extends Component {
 
@@ -75,6 +75,7 @@ class Index extends Component {
                     <Route path="/Enseignant" component={Enseignant} />
                     <Route path="/Admin" component={Admin} />
                     <Route path="/CandidaturesEtudiant" component={CandidaturesEtudiant} />
+                    <Route path="/EntretiensEtudiant" component={EntretiensEtudiant} />
                 </Switch>
             </Router>
            ) ;
