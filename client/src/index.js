@@ -10,6 +10,7 @@ import Admin from './Admin';
 import CandidaturesEtudiant from './CandidaturesEtudiant';
 import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import EntretiensEtudiant from './EntretiensEtudiant';
+import DocumentsEtudiant from './DocumentsEtudiant';
 
 class Index extends Component {
 
@@ -19,13 +20,9 @@ class Index extends Component {
                        error: "",
                        redirection:null,
                        isLoggedIn: false
-                       
         };
-        
     }
     
-    
-
     verifyPassword = arrayUser =>{
         var login = arrayUser.login;
         var password = arrayUser.password;
@@ -76,9 +73,10 @@ class Index extends Component {
                     <Route path="/Admin" component={Admin} />
                     <Route path="/CandidaturesEtudiant" component={CandidaturesEtudiant} />
                     <Route path="/EntretiensEtudiant" component={EntretiensEtudiant} />
+                    <Route path="/DocumentsEtudiant" component={DocumentsEtudiant} />
                 </Switch>
             </Router>
-           ) ;
+           );
         } else{
             return(
                 <div className="App">
@@ -93,8 +91,6 @@ class Index extends Component {
         }
     }
 }
-
-
 
 ReactDOM.render(     
     <Index />,

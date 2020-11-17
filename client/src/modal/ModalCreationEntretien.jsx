@@ -7,14 +7,10 @@ import AjoutEntretienForm from "../form/AjoutEntretienForm";
 function ModalCreationEntretien(props) {
   
   const createEntretien = (arrayEntretien)  => {
-    var date = arrayEntretien.dateEntretien;
-    var mail = arrayEntretien.intervenant;
-    var candid = arrayEntretien.candidature;  
-    var entretien = {dateEntretien: date, mailIntervenant: mail, idCandidature: candid};
     const requestOptions = {
         method: 'POST',
         headers: {"Content-type": "application/json; charset=UTF-8"},
-        body: JSON.stringify(entretien)
+        body: JSON.stringify(arrayEntretien)
     };
     
     fetch('http://localhost:9000/users/insertEntretien', requestOptions)
@@ -27,13 +23,13 @@ function ModalCreationEntretien(props) {
     return (
       <Modal
         {...props}
-        size="lg"
+        size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Ajouter une Entretien
+            Ajouter un Entretien
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

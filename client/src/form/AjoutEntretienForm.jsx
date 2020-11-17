@@ -6,6 +6,7 @@ import CandidatureSelect from '../select/CandidatureSelect';
 class AjoutEntretienForm extends Component {
   state = {
     dateEntretien: "",
+    heureEntretien: "",
     intervenant: null,
     candidature: null,
     entretiens: [],
@@ -16,6 +17,10 @@ class AjoutEntretienForm extends Component {
 
   handleChangeDateEntretien = event => {
     this.setState({ dateEntretien: event.currentTarget.value });
+  };
+
+  handleChangeHeureEntretien = event => {
+    this.setState({ heureEntretien: event.currentTarget.value });
   };
 
   handleChangeIntervenant = event => {
@@ -29,11 +34,7 @@ class AjoutEntretienForm extends Component {
 
   handleSubmit = event => {
       event.preventDefault();
-      var dateEntretien = this.state.dateEntretien;
-      var intervenant = this.state.intervenant;
-      var candidature = this.state.intervenant;
-      this.props.onCreate({dateEntretien, intervenant, candidature});
-      
+      this.props.onCreate({dateEntretien: this.state.dateEntretien, mailIntervenant: this.state.intervenant, idCandidature: this.state.candidature, heureEntretien: this.state.heureEntretien});
   };
 
   getEntretiens(){
@@ -69,14 +70,19 @@ class AjoutEntretienForm extends Component {
       <Form onSubmit={this.handleSubmit}>
         
         <Form.Group controlId="exampleForm.ControlInput1">
-          <Form.Label>Date de l'entretien</Form.Label>
-          <Form.Control type="date" required placeholder="Date de l'entretien" value={this.state.dateEntretien} onChange={this.handleChangeDateEntretien} autoComplete= "on" />
+          <Form.Label>Date</Form.Label>
+          <Form.Control type="date" required  value={this.state.dateEntretien} onChange={this.handleChangeDateEntretien} autoComplete= "on" />
+        </Form.Group>
+
+        <Form.Group controlId="exampleForm.ControlInput1">
+          <Form.Label>Heure</Form.Label>
+          <Form.Control type="time" required value={this.state.heureEntretien} onChange={this.handleChangeHeureEntretien} autoComplete= "on" />
         </Form.Group>
 
         <Form.Group controlId="exampleForm.ControlSelect1">
           <Form.Label>Intervenant</Form.Label>
           <Form.Control as="select" required onChange={this.handleChangeIntervenant}>
-          <option selected value="" hidden></option>
+          <option defaultValue="" hidden></option>
           {this.state.intervenants.map(intervenant => (
             <IntervenantSelect
               key={intervenant.idIntervenant}
@@ -89,7 +95,7 @@ class AjoutEntretienForm extends Component {
         <Form.Group controlId="exampleForm.ControlSelect1">
           <Form.Label>Candidature</Form.Label>
           <Form.Control as="select" required onChange={this.handleChangeCandidature}>
-          <option selected value="" hidden></option>
+          <option defaultValue="" hidden></option>
           {this.state.candidatures.map(candidature => (
             <CandidatureSelect
               key={candidature.idCandidature}

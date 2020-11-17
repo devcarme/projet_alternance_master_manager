@@ -12,7 +12,7 @@ class NavigatorEtudiant extends Component {
         this.state = {
                        error: "",
                        isLoggedIn: true,
-                       redirection:null
+                       message: ""
 
         };
         this.sessionDestroy = this.sessionDestroy.bind(this);
@@ -30,28 +30,18 @@ class NavigatorEtudiant extends Component {
             .then(window.location.reload())
     }
 
-    setRedirection(redirection){
-        var redirect = {lien: redirection};
-        const requestOptions = {
-            method: 'POST',
-            headers: {"Content-type": "application/json; charset=UTF-8"},
-            body: JSON.stringify(redirect)
-    };
     
-    fetch('http://localhost:9000/users/setRedirection', requestOptions)
-        .then(res => console.log(res))
-    };
 
 
     render() {
         return (
         <Navbar bg="dark" variant="dark">
-            <Navbar.Brand><Link className="text-decoration-none text-info" to="/Etudiant" onClick={this.setRedirection("/Etudiant")}>Master Manager</Link></Navbar.Brand>
+            <Navbar.Brand><Link className="text-decoration-none text-info" to="/Etudiant">Master Manager</Link></Navbar.Brand>
             <Nav className="mr-auto">
-              <Nav.Link><Link className="text-decoration-none text-light" to="/Profil" onClick={this.setRedirection("/Profil")}>Profil</Link></Nav.Link>
-              <Nav.Link><Link className="text-decoration-none text-light" to="/CandidaturesEtudiant" onClick={this.setRedirection("/CandidaturesEtudiant")}>Candidatures</Link></Nav.Link>
-              <Nav.Link><Link className="text-decoration-none text-light" to="/EntretiensEtudiant" onClick={this.setRedirection("/EntretiensEtudiant")}>Entretiens</Link></Nav.Link>
-              <Nav.Link>Documents</Nav.Link>
+              <Nav.Link><Link className="text-decoration-none text-light" to="/Profil">Profil</Link></Nav.Link>
+              <Nav.Link><Link className="text-decoration-none text-light" to="/CandidaturesEtudiant">Candidatures</Link></Nav.Link>
+              <Nav.Link><Link className="text-decoration-none text-light" to="/EntretiensEtudiant">Entretiens</Link></Nav.Link>
+              <Nav.Link><Link className="text-decoration-none text-light" to="/DocumentsEtudiant">Documents</Link></Nav.Link>
             </Nav>
             <Form inline>
               <FormControl type="text" placeholder="Search" className="mr-sm-2" />
@@ -62,6 +52,5 @@ class NavigatorEtudiant extends Component {
         );
     }
 }
-
 
 export default NavigatorEtudiant;

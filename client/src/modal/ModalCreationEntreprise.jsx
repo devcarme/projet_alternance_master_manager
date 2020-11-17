@@ -7,13 +7,10 @@ import AjoutEntrepriseForm from "../form/AjoutEntrepriseForm";
 function ModalCreationEntreprise(props) {
   
   const createEntreprise = (arrayEntreprise)  => {
-    var nom = arrayEntreprise.nomEntreprise;
-    var adresse = arrayEntreprise.adresseEntreprise;  
-    var entreprise = {nomEntreprise: nom, adresseEntreprise: adresse};
     const requestOptions = {
         method: 'POST',
         headers: {"Content-type": "application/json; charset=UTF-8"},
-        body: JSON.stringify(entreprise)
+        body: JSON.stringify(arrayEntreprise)
     };
     
     fetch('http://localhost:9000/users/insertEntreprise', requestOptions)
@@ -26,7 +23,7 @@ function ModalCreationEntreprise(props) {
     return (
       <Modal
         {...props}
-        size="lg"
+        size="md"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >

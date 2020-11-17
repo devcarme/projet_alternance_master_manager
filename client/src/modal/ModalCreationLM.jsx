@@ -1,19 +1,19 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap"
-import AjoutCandidatureForm from "../form/AjoutCandidatureForm";
+import AjoutEntrepriseForm from "../form/AjoutEntrepriseForm";
 
 
  
-function ModalCreationCandidature(props) {
+function ModalCreationLM(props) {
   
-  const createCandidature = (arrayCandidature)  => {
+  const createEntreprise = (arrayEntreprise)  => {
     const requestOptions = {
         method: 'POST',
         headers: {"Content-type": "application/json; charset=UTF-8"},
-        body: JSON.stringify(arrayCandidature)
+        body: JSON.stringify(arrayEntreprise)
     };
     
-    fetch('http://localhost:9000/users/insertCandidature', requestOptions)
+    fetch('http://localhost:9000/users/insertEntreprise', requestOptions)
         .then(res => res.text())
         .then(res => console.log(res))
         .then(props.onHide)
@@ -29,11 +29,11 @@ function ModalCreationCandidature(props) {
       >
         <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
-            Créer une candidature
+            Ajouter une entreprise
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <AjoutCandidatureForm onCreate={createCandidature} />
+        <AjoutEntrepriseForm onCreate={createEntreprise} />
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={props.onHide}>Annuler</Button>
@@ -42,4 +42,4 @@ function ModalCreationCandidature(props) {
     );
   }
 
-export default ModalCreationCandidature;
+export default ModalCreationLM;

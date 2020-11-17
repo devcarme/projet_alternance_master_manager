@@ -1,7 +1,7 @@
 import React from "react";
 
-const EntrepriseSelect = ({ details }) => (
-  <option value={details.idIntervenant}>{details.prenomIntervenant} {details.nomIntervenant} {details.nomEntretprise}</option>
+const IntervenantSelect = ({ details }) => (
+  <option value={details.idIntervenant}>{details.prenomIntervenant} {details.nomIntervenant} {details.fonctionIntervenant} {details.nomEntreprise}</option>
 );
 
-export default EntrepriseSelect;
+export default IntervenantSelect;

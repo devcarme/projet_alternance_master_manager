@@ -7,6 +7,7 @@ class AjoutCandidatureForm extends Component {
   state = {
     idEntreprise: null,
     origineOffre: "",
+    intituleOffre: "",
     idCV: null,
     idEntretien: null,
     idLettreMotivation: null,
@@ -23,6 +24,10 @@ class AjoutCandidatureForm extends Component {
     this.setState({ origineOffre: event.currentTarget.value });
   };
 
+  handleChangeIntituleOffre = event => {
+    this.setState({ intituleOffre: event.currentTarget.value });
+  };
+
   handleChangeCV = event => {
     this.setState({ idCV: event.currentTarget.value });
   };
@@ -37,13 +42,7 @@ class AjoutCandidatureForm extends Component {
 
   handleSubmit = event => {
       event.preventDefault();
-      var idEntreprise = this.state.idEntreprise;
-      var origineOffre = this.state.origineOffre;
-      var idCV = this.state.idCV;
-      var idEntretien = this.state.idEntretien;
-      var idLettreMotivation = this.state.idLettreMotivation;
-      this.props.onCreate({idEntreprise, origineOffre, idCV, idEntretien, idLettreMotivation});
-      
+      this.props.onCreate({idEntreprise: this.state.idEntreprise, intituleOffre: this.state.intituleOffre, origineOffre: this.state.origineOffre, idCV: this.state.idCV, idEntretien: this.state.idEntretien, idLettreMotivation: this.state.idLettreMotivation});
   };
 
   getEntreprises(){
@@ -90,6 +89,11 @@ class AjoutCandidatureForm extends Component {
           </Form.Control>
         </Form.Group>
 
+        <Form.Group controlId="exampleForm.ControlInput1">
+          <Form.Label>Intitulé de l'offre</Form.Label>
+          <Form.Control type="text" required value={this.state.intituleOffre} onChange={this.handleChangeIntituleOffre} autoComplete= "on" />
+        </Form.Group>
+
         <Form.Group controlId="exampleForm.ControlSelect1">
           <Form.Label>CV</Form.Label>
           <Form.Control as="select" required onChange={this.handleChangeCV}>
@@ -118,7 +122,7 @@ class AjoutCandidatureForm extends Component {
 
         <Form.Group controlId="exampleForm.ControlInput1">
           <Form.Label>Origine de l'offre</Form.Label>
-          <Form.Control type="text" required placeholder="Origine de l'offre" value={this.state.origineOffre} onChange={this.handleChangeOrigineOffre} autoComplete= "on" />
+          <Form.Control type="text" required value={this.state.origineOffre} onChange={this.handleChangeOrigineOffre} autoComplete= "on" />
         </Form.Group>
 
         <Button type="submit">Créer</Button>

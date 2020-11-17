@@ -22,26 +22,45 @@ function CandidaturesEtudiant (props) {
             .catch(err => err);
     }
 
+    const setRedirection = () => {
+        var redirect = {lien: "/CandidaturesEtudiant"};
+        const requestOptions = {
+            method: 'POST',
+            headers: {"Content-type": "application/json; charset=UTF-8"},
+            body: JSON.stringify(redirect)
+        };
+    
+    fetch('http://localhost:9000/users/setRedirection', requestOptions)
+        .then(res => res.json())
+        .then(res => console.log(res.redirect))
+    };
+
     useEffect(()=>{
         getCandidatures()
+        setRedirection()
       },[])
 
         return (
             
-            <div class="container-fluid p-0">
+            <div className="container-fluid p-0">
                 <NavigatorEtudiant/>
                 <br/>
-                <div className="row justify-content-around pr-0">
-                    <Button variant="primary" className="mb-3" onClick={() => setModalAjoutCandidature(true)}>Créer une candidature</Button>
-                    <Button variant="primary" className="mb-3" onClick={() => setModalAjoutEntreprise(true)}>Ajouter une entreprise</Button>
-                    <Button variant="primary" className="mb-3" onClick={() => setModalAjoutEntretien(true)}>Ajouter un entretien</Button>
-                </div>
                 <Table striped bordered hover variant="dark">
-                        <thead><th><h3>Candidatures</h3></th></thead>
-                        <thead>
+                        <thead className="text-center">
+                            <th><h3>Candidatures</h3></th>
+                                <td colSpan="5">
+                                    <div className="row justify-content-around pr-0 mb-2 mt-2">
+                                        <Button variant="primary"  onClick={() => setModalAjoutCandidature(true)}><h5>Créer une candidature</h5></Button>
+                                        <Button variant="primary"  onClick={() => setModalAjoutEntreprise(true)}><h5>Ajouter une entreprise</h5></Button>
+                                        <Button variant="primary"  onClick={() => setModalAjoutEntretien(true)}><h5>Ajouter un entretien</h5></Button>
+                                    </div>
+                                </td>
+                        </thead>
+                        <thead className="text-center">
                             <tr>
                             <th>N°</th>
                             <th>Entreprise</th>
+                            <th>Intitulé</th>
                             <th>Documents</th>
                             <th>Origine de l'offre</th>
                             <th>Entretien</th>

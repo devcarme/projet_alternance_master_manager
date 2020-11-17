@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost
--- Généré le :  Dim 25 oct. 2020 à 15:50
--- Version du serveur :  10.3.9-MariaDB
--- Version de PHP :  7.2.9
+-- Hôte : 127.0.0.1:3306
+-- Généré le : mar. 17 nov. 2020 à 08:20
+-- Version du serveur :  5.7.31
+-- Version de PHP : 7.4.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,290 +18,374 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `zil3-zducarmlo`
+-- Base de données : `alternance_master_manager`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `ADMINISTRATEUR`
+-- Structure de la table `administrateur`
 --
 
-CREATE TABLE `ADMINISTRATEUR` (
-  `idAdministrateur` varchar(45) NOT NULL
+DROP TABLE IF EXISTS `administrateur`;
+CREATE TABLE IF NOT EXISTS `administrateur` (
+  `idAdministrateur` varchar(45) NOT NULL,
+  KEY `fk_ADMINISTRATEUR_UTILISATEUR1_idx` (`idAdministrateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Déchargement des données de la table `administrateur`
+--
+
+INSERT INTO `administrateur` (`idAdministrateur`) VALUES
+('admin');
+
 -- --------------------------------------------------------
 
 --
--- Structure de la table `CANDIDATURE`
+-- Structure de la table `candidature`
 --
 
-CREATE TABLE `CANDIDATURE` (
-  `idCandidature` int(11) NOT NULL,
-  `origineOffre` varchar(45) DEFAULT NULL,
+DROP TABLE IF EXISTS `candidature`;
+CREATE TABLE IF NOT EXISTS `candidature` (
+  `idCandidature` int(11) NOT NULL AUTO_INCREMENT,
+  `origineOffre` varchar(45) NOT NULL,
   `idEntreprise` int(11) NOT NULL,
-  `idEtudiant` int(11) DEFAULT NULL,
+  `idEtudiant` varchar(30) NOT NULL,
   `idLettreMotivation` int(11) DEFAULT NULL,
-  `idEntretien` int(11) DEFAULT NULL,
-  `idCV` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `idCV` int(11) NOT NULL,
+  `intituleOffre` varchar(45) NOT NULL,
+  PRIMARY KEY (`idCandidature`),
+  KEY `fk_CANDIDATURE_LettreMotivation1_idx` (`idLettreMotivation`),
+  KEY `fk_CANDIDATURE_ENTREPRISE` (`idEntreprise`),
+  KEY `fk_CANDIDATURE_CV` (`idCV`) USING BTREE,
+  KEY `fk_CANDIDATURE_ETUDIANT` (`idEtudiant`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `candidature`
+--
+
+INSERT INTO `candidature` (`idCandidature`, `origineOffre`, `idEntreprise`, `idEtudiant`, `idLettreMotivation`, `idCV`, `intituleOffre`) VALUES
+(1, 'UBO', 1, 'ducarmeloick@gmail.com', NULL, 1, ''),
+(2, 'UBO', 2, 'ducarmeloick@gmail.com', NULL, 2, ''),
+(3, 'Perso', 4, 'ducarmeloick@gmail.com', NULL, 2, ''),
+(4, 'Perso', 1, 'ducarmeloick@gmail.com', NULL, 1, 'Stage php'),
+(5, 'Perso', 3, 'ducarmeloick@gmail.com', NULL, 2, 'Stage réseau'),
+(6, 'Perso', 5, 'ducarmeloick@gmail.com', NULL, 1, 'Stage web');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `CV`
+-- Structure de la table `candidature_entretien`
 --
 
-CREATE TABLE `CV` (
-  `idCV` int(11) NOT NULL,
+DROP TABLE IF EXISTS `candidature_entretien`;
+CREATE TABLE IF NOT EXISTS `candidature_entretien` (
+  `idCandidature` int(11) NOT NULL,
+  `idEntretien` int(11) NOT NULL,
+  PRIMARY KEY (`idCandidature`,`idEntretien`),
+  KEY `FK_ENTRETIEN_HAS_ENTRETIEN` (`idEntretien`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `candidature_entretien`
+--
+
+INSERT INTO `candidature_entretien` (`idCandidature`, `idEntretien`) VALUES
+(1, 3),
+(1, 7),
+(2, 4),
+(2, 5),
+(2, 8),
+(5, 6),
+(6, 9);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `cv`
+--
+
+DROP TABLE IF EXISTS `cv`;
+CREATE TABLE IF NOT EXISTS `cv` (
+  `idCV` int(11) NOT NULL AUTO_INCREMENT,
   `valide` tinyint(1) DEFAULT NULL,
   `lien` varchar(45) DEFAULT NULL,
-  `idEtudiant` varchar(45) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `idEtudiant` varchar(45) NOT NULL,
+  `observations` varchar(255) NOT NULL,
+  PRIMARY KEY (`idCV`),
+  KEY `fk_CV_ETUDIANT1` (`idEtudiant`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `cv`
+--
+
+INSERT INTO `cv` (`idCV`, `valide`, `lien`, `idEtudiant`, `observations`) VALUES
+(1, NULL, 'lienCV1', 'ducarmeloick@gmail.com', ''),
+(2, NULL, 'lienCV2', 'ducarmeloick@gmail.com', ''),
+(3, NULL, 'lienCV3', 'ducarmeloick@gmail.com', '');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `ENSEIGNANT`
+-- Structure de la table `enseignant`
 --
 
-CREATE TABLE `ENSEIGNANT` (
-  `idEnseignant` varchar(45) NOT NULL
+DROP TABLE IF EXISTS `enseignant`;
+CREATE TABLE IF NOT EXISTS `enseignant` (
+  `idEnseignant` varchar(45) NOT NULL,
+  KEY `fk_ENSEIGNANT_UTILISATEUR1_idx` (`idEnseignant`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `enseignant`
+--
+
+INSERT INTO `enseignant` (`idEnseignant`) VALUES
+('laurent@enseignant.com');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `ENTREPRISE`
+-- Structure de la table `entreprise`
 --
 
-CREATE TABLE `ENTREPRISE` (
-  `idEntreprise` int(11) NOT NULL,
-  `nomEntreprise` varchar(45) DEFAULT NULL,
-  `adresseEntreprise` varchar(45) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `entreprise`;
+CREATE TABLE IF NOT EXISTS `entreprise` (
+  `idEntreprise` int(11) NOT NULL AUTO_INCREMENT,
+  `nomEntreprise` varchar(45) NOT NULL,
+  `adresseEntreprise` varchar(255) NOT NULL,
+  PRIMARY KEY (`idEntreprise`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `entreprise`
+--
+
+INSERT INTO `entreprise` (`idEntreprise`, `nomEntreprise`, `adresseEntreprise`) VALUES
+(1, 'Orange', '78 RUE OLIVIER DE SERRES - 75015 PARIS'),
+(2, 'Nokia', '37 QUAI DU PRESIDENT ROOSEVELT 92130 ISSY-LES-MOULINEAUX'),
+(3, 'SFR', 'nfuipf'),
+(4, 'Thales', '10 AV 1ERE DFL à BREST'),
+(5, 'Bouygues', 'ddqfdsf');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `ENTRETIEN`
+-- Structure de la table `entretien`
 --
 
-CREATE TABLE `ENTRETIEN` (
+DROP TABLE IF EXISTS `entretien`;
+CREATE TABLE IF NOT EXISTS `entretien` (
+  `idEntretien` int(11) NOT NULL AUTO_INCREMENT,
+  `dateEntretien` date NOT NULL,
+  `estOrganiseParUBO` tinyint(1) NOT NULL DEFAULT '0',
+  `estAnnule` tinyint(1) NOT NULL DEFAULT '0',
+  `idEtudiant` varchar(30) NOT NULL,
+  `heureEntretien` time NOT NULL,
+  PRIMARY KEY (`idEntretien`),
+  KEY `FK_ENTRETIEN_ETUDIANT` (`idEtudiant`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `entretien`
+--
+
+INSERT INTO `entretien` (`idEntretien`, `dateEntretien`, `estOrganiseParUBO`, `estAnnule`, `idEtudiant`, `heureEntretien`) VALUES
+(1, '2020-11-20', 0, 0, 'ducarmeloick@gmail.com', '00:00:00'),
+(2, '2020-11-14', 0, 0, 'ducarmeloick@gmail.com', '00:00:00'),
+(3, '2020-11-14', 0, 0, 'ducarmeloick@gmail.com', '00:00:00'),
+(4, '2020-11-14', 0, 0, 'ducarmeloick@gmail.com', '00:00:00'),
+(5, '2020-11-14', 0, 0, 'ducarmeloick@gmail.com', '15:12:00'),
+(6, '2020-11-15', 0, 0, 'ducarmeloick@gmail.com', '12:20:00'),
+(7, '2020-11-15', 0, 0, 'ducarmeloick@gmail.com', '15:47:00'),
+(8, '2020-11-15', 0, 0, 'ducarmeloick@gmail.com', '18:18:00'),
+(9, '2020-11-15', 0, 0, 'ducarmeloick@gmail.com', '18:20:00');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `entretien_intervenant`
+--
+
+DROP TABLE IF EXISTS `entretien_intervenant`;
+CREATE TABLE IF NOT EXISTS `entretien_intervenant` (
   `idEntretien` int(11) NOT NULL,
-  `dateEntretien` date DEFAULT NULL,
-  `estOrganiseParUBO` tinyint(1) DEFAULT NULL,
-  `estPersonnel` tinyint(1) DEFAULT NULL,
-  `estAnnule` tinyint(1) DEFAULT NULL,
-  `idEtudiant` int(11) NOT NULL
+  `idIntervenant` varchar(45) NOT NULL,
+  PRIMARY KEY (`idEntretien`,`idIntervenant`),
+  KEY `FK_INTERVENANT_has_INTERVENANT` (`idIntervenant`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `entretien_intervenant`
+--
+
+INSERT INTO `entretien_intervenant` (`idEntretien`, `idIntervenant`) VALUES
+(8, 'carelkoneelle2@gmail.com'),
+(6, 'carelkoneelle@gmail.com'),
+(7, 'clementineprune@gmail.com'),
+(9, 'didierdeschamps@bouygues.fr'),
+(3, 'théorème@thales.fr'),
+(4, 'théorème@thales.fr'),
+(5, 'théorème@thales.fr');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `ENTRETIEN_INTERVENANT`
+-- Structure de la table `etudiant`
 --
 
-CREATE TABLE `ENTRETIEN_INTERVENANT` (
-  `idEntretien` int(11) NOT NULL,
-  `idIntervenant` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `ETUDIANT`
---
-
-CREATE TABLE `ETUDIANT` (
+DROP TABLE IF EXISTS `etudiant`;
+CREATE TABLE IF NOT EXISTS `etudiant` (
   `idEtudiant` varchar(45) NOT NULL,
   `parcours` varchar(45) DEFAULT NULL,
-  `nationaliteFrancaise` varchar(45) DEFAULT NULL,
+  `nationaliteFrancaise` tinyint(1) DEFAULT NULL,
   `dateNaissance` date DEFAULT NULL,
   `typeContrat` varchar(45) DEFAULT NULL,
   `dateObtentionStage` varchar(45) DEFAULT NULL,
-  `idENTREPRISE` int(11) DEFAULT NULL
+  `idEntrepriseStage` int(11) DEFAULT NULL,
+  PRIMARY KEY (`idEtudiant`),
+  KEY `fk_ETUDIANT_ENTREPRISE1_idx` (`idEntrepriseStage`),
+  KEY `fk_ETUDIANT_UTILISATEUR1_idx` (`idEtudiant`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `etudiant`
+--
+
+INSERT INTO `etudiant` (`idEtudiant`, `parcours`, `nationaliteFrancaise`, `dateNaissance`, `typeContrat`, `dateObtentionStage`, `idEntrepriseStage`) VALUES
+('ducarmeloick@gmail.com', 'II', 1, '2020-11-30', '', NULL, NULL),
+('patbru@gmail.com', 'II', 1, '1959-05-14', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `INTERVENANT`
+-- Structure de la table `intervenant`
 --
 
-CREATE TABLE `INTERVENANT` (
-  `idIntervenant` int(11) NOT NULL,
-  `nomIntervenant` varchar(45) DEFAULT NULL,
-  `prenomIntervenant` varchar(45) DEFAULT NULL,
-  `fonctionIntervenant` varchar(45) DEFAULT NULL,
-  `idEntreprise` int(11) NOT NULL
+DROP TABLE IF EXISTS `intervenant`;
+CREATE TABLE IF NOT EXISTS `intervenant` (
+  `idIntervenant` varchar(45) NOT NULL,
+  `nomIntervenant` varchar(45) NOT NULL,
+  `prenomIntervenant` varchar(45) NOT NULL,
+  `fonctionIntervenant` varchar(45) NOT NULL,
+  `idEntreprise` int(11) NOT NULL,
+  PRIMARY KEY (`idIntervenant`),
+  KEY `fk_INTERVENANT_ENTREPRISE1_idx` (`idEntreprise`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `intervenant`
+--
+
+INSERT INTO `intervenant` (`idIntervenant`, `nomIntervenant`, `prenomIntervenant`, `fonctionIntervenant`, `idEntreprise`) VALUES
+('carelkoneelle2@gmail.com', 'Konéelle', 'Carel', 'Gérante', 3),
+('carelkoneelle@gmail.com', 'Konéelle', 'Carel', 'Gérante', 3),
+('clementineprune@gmail.com', 'Prune', 'Clémentine', 'Manager', 1),
+('didierdeschamps@bouygues.fr', 'Deschamps', 'Didier', 'DRH', 5),
+('théorème@thales.fr', 'Rème', 'Théo', 'DRH', 4);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `LettreMotivation`
+-- Structure de la table `lettremotivation`
 --
 
-CREATE TABLE `LettreMotivation` (
+DROP TABLE IF EXISTS `lettremotivation`;
+CREATE TABLE IF NOT EXISTS `lettremotivation` (
   `idLettreMotivation` int(11) NOT NULL,
   `valide` tinyint(1) DEFAULT NULL,
   `lien` varchar(45) DEFAULT NULL,
-  `idEtudiant` varchar(45) NOT NULL
+  `idEtudiant` varchar(45) NOT NULL,
+  `observations` varchar(255) NOT NULL,
+  PRIMARY KEY (`idLettreMotivation`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `UTILISATEUR`
+-- Structure de la table `utilisateur`
 --
 
-CREATE TABLE `UTILISATEUR` (
+DROP TABLE IF EXISTS `utilisateur`;
+CREATE TABLE IF NOT EXISTS `utilisateur` (
   `idUtilisateur` varchar(45) NOT NULL,
   `nom` varchar(45) DEFAULT NULL,
-  `prenom` varchar(45) DEFAULT NULL
+  `prenom` varchar(45) DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`idUtilisateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `UTILISATEUR`
+-- Déchargement des données de la table `utilisateur`
 --
 
-INSERT INTO `UTILISATEUR` (`idUtilisateur`, `nom`, `prenom`) VALUES
-('1', 'DUCARME', 'Loick'),
-('2', 'TEST', 'test'),
-('3', 'Patrick', 'Bruel');
-
---
--- Index pour les tables déchargées
---
-
---
--- Index pour la table `ADMINISTRATEUR`
---
-ALTER TABLE `ADMINISTRATEUR`
-  ADD KEY `fk_ADMINISTRATEUR_UTILISATEUR1_idx` (`idAdministrateur`);
-
---
--- Index pour la table `CANDIDATURE`
---
-ALTER TABLE `CANDIDATURE`
-  ADD PRIMARY KEY (`idCandidature`),
-  ADD KEY `fk_CANDIDATURE_ENTREPRISE1_idx` (`idEntreprise`),
-  ADD KEY `fk_CANDIDATURE_LettreMotivation1_idx` (`idLettreMotivation`),
-  ADD KEY `fk_CANDIDATURE_ENTRETIEN1_idx` (`idEntretien`),
-  ADD KEY `fk_CANDIDATURE_CV1_idx` (`idCV`);
-
---
--- Index pour la table `CV`
---
-ALTER TABLE `CV`
-  ADD PRIMARY KEY (`idCV`),
-  ADD KEY `fk_CV_ETUDIANT1_idx` (`idEtudiant`);
-
---
--- Index pour la table `ENSEIGNANT`
---
-ALTER TABLE `ENSEIGNANT`
-  ADD KEY `fk_ENSEIGNANT_UTILISATEUR1_idx` (`idEnseignant`);
-
---
--- Index pour la table `ENTREPRISE`
---
-ALTER TABLE `ENTREPRISE`
-  ADD PRIMARY KEY (`idEntreprise`);
-
---
--- Index pour la table `ENTRETIEN`
---
-ALTER TABLE `ENTRETIEN`
-  ADD PRIMARY KEY (`idEntretien`);
-
---
--- Index pour la table `ENTRETIEN_INTERVENANT`
---
-ALTER TABLE `ENTRETIEN_INTERVENANT`
-  ADD PRIMARY KEY (`idEntretien`,`idIntervenant`),
-  ADD KEY `fk_ENTRETIEN_has_INTERVENANT_INTERVENANT1_idx` (`idIntervenant`),
-  ADD KEY `fk_ENTRETIEN_has_INTERVENANT_ENTRETIEN1_idx` (`idEntretien`);
-
---
--- Index pour la table `ETUDIANT`
---
-ALTER TABLE `ETUDIANT`
-  ADD PRIMARY KEY (`idEtudiant`),
-  ADD KEY `fk_ETUDIANT_ENTREPRISE1_idx` (`idENTREPRISE`),
-  ADD KEY `fk_ETUDIANT_UTILISATEUR1_idx` (`idEtudiant`);
-
---
--- Index pour la table `INTERVENANT`
---
-ALTER TABLE `INTERVENANT`
-  ADD PRIMARY KEY (`idIntervenant`),
-  ADD KEY `fk_INTERVENANT_ENTREPRISE1_idx` (`idEntreprise`);
-
---
--- Index pour la table `LettreMotivation`
---
-ALTER TABLE `LettreMotivation`
-  ADD PRIMARY KEY (`idLettreMotivation`);
-
---
--- Index pour la table `UTILISATEUR`
---
-ALTER TABLE `UTILISATEUR`
-  ADD PRIMARY KEY (`idUtilisateur`);
+INSERT INTO `utilisateur` (`idUtilisateur`, `nom`, `prenom`, `password`) VALUES
+('admin', 'admin', 'admin', 'admin'),
+('ducarmeloick@gmail.com', 'DUCARME', 'Loick', 'mdp'),
+('laurent@enseignant.com', 'LEMARCHAND', 'Laurent', 'laurent'),
+('patbru@gmail.com', 'Patrick', 'Bruel', 'mdp'),
+('test', 'test', 'test', 'test'),
+('test@test.com', 'TEST', 'test', 'mdp');
 
 --
 -- Contraintes pour les tables déchargées
 --
 
 --
--- Contraintes pour la table `ADMINISTRATEUR`
+-- Contraintes pour la table `administrateur`
 --
-ALTER TABLE `ADMINISTRATEUR`
-  ADD CONSTRAINT `fk_ADMINISTRATEUR_UTILISATEUR1` FOREIGN KEY (`idAdministrateur`) REFERENCES `UTILISATEUR` (`idUtilisateur`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `administrateur`
+  ADD CONSTRAINT `fk_ADMINISTRATEUR_UTILISATEUR1` FOREIGN KEY (`idAdministrateur`) REFERENCES `utilisateur` (`idUtilisateur`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Contraintes pour la table `CANDIDATURE`
+-- Contraintes pour la table `candidature`
 --
-ALTER TABLE `CANDIDATURE`
-  ADD CONSTRAINT `fk_CANDIDATURE_CV1` FOREIGN KEY (`idCV`) REFERENCES `CV` (`idCV`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_CANDIDATURE_ENTREPRISE1` FOREIGN KEY (`idEntreprise`) REFERENCES `ENTREPRISE` (`idEntreprise`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_CANDIDATURE_ENTRETIEN1` FOREIGN KEY (`idEntretien`) REFERENCES `ENTRETIEN` (`idEntretien`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_CANDIDATURE_LettreMotivation1` FOREIGN KEY (`idLettreMotivation`) REFERENCES `LettreMotivation` (`idLettreMotivation`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `candidature`
+  ADD CONSTRAINT `fk_CANDIDATURE_CV1` FOREIGN KEY (`idCV`) REFERENCES `cv` (`idCV`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_CANDIDATURE_ENTREPRISE` FOREIGN KEY (`idEntreprise`) REFERENCES `entreprise` (`idEntreprise`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_CANDIDATURE_LettreMotivation1` FOREIGN KEY (`idLettreMotivation`) REFERENCES `lettremotivation` (`idLettreMotivation`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Contraintes pour la table `CV`
+-- Contraintes pour la table `cv`
 --
-ALTER TABLE `CV`
-  ADD CONSTRAINT `fk_CV_ETUDIANT1` FOREIGN KEY (`idEtudiant`) REFERENCES `ETUDIANT` (`idEtudiant`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `cv`
+  ADD CONSTRAINT `fk_CV_ETUDIANT1` FOREIGN KEY (`idEtudiant`) REFERENCES `etudiant` (`idEtudiant`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Contraintes pour la table `ENSEIGNANT`
+-- Contraintes pour la table `enseignant`
 --
-ALTER TABLE `ENSEIGNANT`
-  ADD CONSTRAINT `fk_ENSEIGNANT_UTILISATEUR1` FOREIGN KEY (`idEnseignant`) REFERENCES `UTILISATEUR` (`idUtilisateur`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `enseignant`
+  ADD CONSTRAINT `fk_ENSEIGNANT_UTILISATEUR1` FOREIGN KEY (`idEnseignant`) REFERENCES `utilisateur` (`idUtilisateur`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Contraintes pour la table `ENTRETIEN_INTERVENANT`
+-- Contraintes pour la table `entretien`
 --
-ALTER TABLE `ENTRETIEN_INTERVENANT`
-  ADD CONSTRAINT `fk_ENTRETIEN_has_INTERVENANT_ENTRETIEN1` FOREIGN KEY (`idEntretien`) REFERENCES `ENTRETIEN` (`idEntretien`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_ENTRETIEN_has_INTERVENANT_INTERVENANT1` FOREIGN KEY (`idIntervenant`) REFERENCES `INTERVENANT` (`idIntervenant`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `entretien`
+  ADD CONSTRAINT `FK_ENTRETIEN_ETUDIANT` FOREIGN KEY (`idEtudiant`) REFERENCES `etudiant` (`idEtudiant`);
 
 --
--- Contraintes pour la table `ETUDIANT`
+-- Contraintes pour la table `entretien_intervenant`
 --
-ALTER TABLE `ETUDIANT`
-  ADD CONSTRAINT `fk_ETUDIANT_ENTREPRISE1` FOREIGN KEY (`idENTREPRISE`) REFERENCES `ENTREPRISE` (`idEntreprise`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_ETUDIANT_UTILISATEUR1` FOREIGN KEY (`idEtudiant`) REFERENCES `UTILISATEUR` (`idUtilisateur`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `entretien_intervenant`
+  ADD CONSTRAINT `FK_INTERVENANT_has_INTERVENANT` FOREIGN KEY (`idIntervenant`) REFERENCES `intervenant` (`idIntervenant`),
+  ADD CONSTRAINT `fk_ENTRETIEN_has_INTERVENANT_ENTRETIEN1` FOREIGN KEY (`idEntretien`) REFERENCES `entretien` (`idEntretien`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_ENTRETIEN_has_INTERVENANT_INTERVENANT1` FOREIGN KEY (`idIntervenant`) REFERENCES `intervenant` (`idIntervenant`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Contraintes pour la table `INTERVENANT`
+-- Contraintes pour la table `etudiant`
 --
-ALTER TABLE `INTERVENANT`
-  ADD CONSTRAINT `fk_INTERVENANT_ENTREPRISE1` FOREIGN KEY (`idEntreprise`) REFERENCES `ENTREPRISE` (`idEntreprise`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `etudiant`
+  ADD CONSTRAINT `fk_ETUDIANT_ENTREPRISE1` FOREIGN KEY (`idEntrepriseStage`) REFERENCES `entreprise` (`idEntreprise`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_ETUDIANT_UTILISATEUR1` FOREIGN KEY (`idEtudiant`) REFERENCES `utilisateur` (`idUtilisateur`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Contraintes pour la table `intervenant`
+--
+ALTER TABLE `intervenant`
+  ADD CONSTRAINT `fk_INTERVENANT_ENTREPRISE1` FOREIGN KEY (`idEntreprise`) REFERENCES `entreprise` (`idEntreprise`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

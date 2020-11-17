@@ -41,13 +41,8 @@ class AjoutEntrepriseForm extends Component {
       <Form onSubmit={this.handleSubmit}>
         
         <Form.Group controlId="exampleForm.ControlInput1">
-          <Form.Label>Nom de l'entreprise</Form.Label>
+          <Form.Label>Fichier PDF</Form.Label>
           <Form.Control type="text" required  value={this.state.nomEntreprise} onChange={this.handleChangeNomEntreprise} autoComplete= "on" />
-        </Form.Group>
-
-        <Form.Group controlId="exampleForm.ControlInput1">
-          <Form.Label>Adresse de l'entreprise</Form.Label>
-          <Form.Control type="text" required  value={this.state.adresseEntreprise} onChange={this.handleChangeAdresseEntreprise} autoComplete= "on" />
         </Form.Group>
 
         <Button type="submit">Ajouter</Button>

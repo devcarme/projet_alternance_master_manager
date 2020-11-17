@@ -1,9 +1,10 @@
 import React from "react";
 
 const CandidatureDetails = ({ details }) => (
-  <tr>
+  <tr className="text-center">
         <td>{details.idCandidature}</td>
         <td> {details.nomEntreprise}</td>
+        <td> {details.intituleOffre}</td>
         <td> {details.idCV} {details.idLettreMotivation}</td>
         <td> {details.origineOffre}</td>
         <td>
